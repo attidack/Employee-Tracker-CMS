@@ -4,7 +4,9 @@
   "description": "Back-end APIs for a voting app.",
   "main": "server.js",
   "dependencies": {
+    "console.table": "^0.10.0",
     "express": "^4.17.1",
+    "inquirer": "^8.0.0",
     "mysql2": "^2.2.5"
   },
   "scripts": {
