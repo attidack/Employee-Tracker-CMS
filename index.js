@@ -1,25 +1,12 @@
-const express = require('express');
 const db = require('./db/connection');
-const Routes = require('./routes');
-
-const app = express();
-
-// Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
-// Use apiRoutes
-app.use('/', Routes);
-
-// Default response for any other request (Not Found)
-app.use((req, res) => {
-  res.status(404).end();
-});
+const cTable = require('console.table');
+const inquirer = require('inquirer')
 
 // Start server after DB connection
 db.connect(err => {
   if (err) throw err;
   console.log('Database connected.');
+  initalQuestions()
 });
 
 const initalQuestions = () => {
@@ -51,10 +38,13 @@ const initalQuestions = () => {
           // switch for all the choices that the user may select with applicable functions to run as they should 
           switch (choice) {
               case "View All Employees":
+                viewallemployees()
                   break;
               case "View All Roles":
+                viewallroles()
                   break;
               case "View All Departments":
+                viewalldpts()
                   break;
               case "View Employees by Manager":
               case "Add an Employee":
@@ -62,6 +52,7 @@ const initalQuestions = () => {
               case "Add a Role":
                   break;
               case "Add a Department":
+                addDepartment()
                   break;
               case "Update an Employee's Role":
                   break;
@@ -78,7 +69,73 @@ const initalQuestions = () => {
 };
 
 
-module.exports = initalQuestions
+const viewalldpts = () => {
+    const sql = `SELECT * FROM department`;
+    db.query(sql, (err, rows) => {
+      if (err) {
+        throw err 
+      }
+      console.table(rows)
+      initalQuestions()
+    });
+}
+
+const viewallroles = () => {
+    const sql = `SELECT roles.id, roles.title, roles.salary, department.name 
+                AS department_name 
+                FROM roles 
+                LEFT JOIN department 
+                ON roles.department_id = department.id`;
+
+  db.query(sql, (err, rows) => {
+    if (err) {
+      throw err;     
+    }
+    console.table(rows)
+      initalQuestions()
+    });
+}
+
+const viewallemployees = () => {
+    const sql = `SELECT employee.id, employee.first_name, employee.last_name, employee.created_at, roles.title 
+                AS title,
+                manager.first_name as manager 
+                FROM employee 
+                LEFT JOIN roles 
+                ON employee.roles_id = roles.id
+                LEFT JOIN employee manager on manager.id = employee.manager_id`;
+  db.query(sql, (err, rows) => {
+    if (err) {
+      throw err;     
+    }
+    console.table(rows)
+      initalQuestions()
+    });
+}
+
+const addDepartment = () => {
+    inquirer
+  .prompt({
+    type: 'input',
+    name: 'newDepartment',
+    message: 'what would you like to name the new department?'
+})
+  .then(answers => {
+    const sql = `INSERT INTO department (name) VALUES (?)`;
+  const params = [
+    answers.newDepartment,
+  ];
+
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      throw err
+    }
+    console.log('Your new department as been added')
+    initalQuestions()
+
+  });
+  })
+}
 /*
 inital choices
 

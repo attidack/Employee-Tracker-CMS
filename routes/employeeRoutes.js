@@ -47,18 +47,6 @@ router.get('/employee/:id', (req, res) => {
 
 // Create an employee
 router.post('/employee', ({ body }, res) => {
-  const errors = inputCheck(
-    body,
-    'first_name',
-    'last_name',
-    'roles_id',
-    'manager_id'
-  );
-  if (errors) {
-    res.status(400).json({ error: errors });
-    return;
-  }
-
   const sql = `INSERT INTO candidates (first_name, last_name, roles_id, manager_id) VALUES (?,?,?,?)`;
   const params = [
     body.first_name,
@@ -81,19 +69,12 @@ router.post('/employee', ({ body }, res) => {
 
 // Update a employee's role
 router.put('/employee/:id', (req, res) => {
-  const errors = inputCheck(req.body, 'roles_id');
-  if (errors) {
-    res.status(400).json({ error: errors });
-    return;
-  }
-
   const sql = `UPDATE employee SET roles_id = ? 
                WHERE id = ?`;
   const params = [req.body.roles_id, req.params.id];
-
   db.query(sql, params, (err, result) => {
     if (err) {
-      res.status(400).json({ error: err.message });
+      throw err
     } else if (!result.affectedRows) {
       res.json({
         message: 'employee not found'

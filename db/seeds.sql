@@ -1,11 +1,3 @@
-INSERT INTO employee (first_name, last_name, roles_id, manager_id)
-VALUES 
-('Jon', 'bird', 4, NULL),
-('Jenna', 'Rogan', 1, 1),
-('Tyler', 'Genkins', 2, 1),
-('Maddie', 'Day', 3, 1),
-('Biggy', 'Smalls', 2, 1);
-
 INSERT INTO department (name)
 VALUES 
 ('Software'),
@@ -20,3 +12,10 @@ VALUES
 ('Designer', 75000, 3),
 ('Manager', 100000, 4);
 
+INSERT INTO employee (first_name, last_name, roles_id, manager_id)
+VALUES 
+('Jon', 'bird', 4, NULL),
+('Jenna', 'Rogan', 1, 1),
+('Tyler', 'Genkins', 2, 1),
+('Maddie', 'Day', 3, 1),
+('Biggy', 'Smalls', 2, 1);

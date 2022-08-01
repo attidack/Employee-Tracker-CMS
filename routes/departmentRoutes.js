@@ -21,9 +21,7 @@ const showTable = () => {
 
 
 // Get all departments
-router.get('/department', (req, res) => {
   const sql = `SELECT * FROM department`;
-
   db.query(sql, (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
@@ -34,7 +32,7 @@ router.get('/department', (req, res) => {
       data: rows
     });
   });
-});
+
 
 // Get single department
 router.get('/department/:id', (req, res) => {
