@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const db = require('../../db/connection');
 
-// Get all parties
-router.get('/parties', (req, res) => {
-  const sql = `SELECT * FROM parties`;
-
+// Get all employees
+router.get('/employee', (req, res) => {
+  const sql = `SELECT * FROM employee`;
   db.query(sql, (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
@@ -18,11 +17,10 @@ router.get('/parties', (req, res) => {
   });
 });
 
-// Get single party
-router.get('/party/:id', (req, res) => {
-  const sql = `SELECT * FROM parties WHERE id = ?`;
+// Get  a single employee
+router.get('/employee/:id', (req, res) => {
+  const sql = `SELECT * FROM employee WHERE id = ?`;
   const params = [req.params.id];
-
   db.query(sql, params, (err, row) => {
     if (err) {
       res.status(400).json({ error: err.message });
@@ -35,16 +33,16 @@ router.get('/party/:id', (req, res) => {
   });
 });
 
-// Delete a party
-router.delete('/party/:id', (req, res) => {
-  const sql = `DELETE FROM parties WHERE id = ?`;
-
-  db.query(sql, req.params.id, (err, result) => {
+// Delete an employee
+router.delete('/employee/:id', (req, res) => {
+  const sql = `DELETE FROM employee WHERE id = ?`;
+  const params = [req.params.id];
+  db.query(sql, params, (err, result) => {
     if (err) {
       res.status(400).json({ error: res.message });
     } else if (!result.affectedRows) {
       res.json({
-        message: 'Party not found'
+        message: 'employee not found'
       });
     } else {
       res.json({
