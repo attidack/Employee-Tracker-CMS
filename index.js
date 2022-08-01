@@ -22,9 +22,63 @@ db.connect(err => {
   console.log('Database connected.');
 });
 
+const initalQuestions = () => {
+  const options = [
+      "View All Employees",
+      "View All Roles",
+      "View All Departments",
+      "View Employees by Manager",
+      "Add an Employee",
+      "Add a Role",
+      "Add a Department",
+      "Update an Employee's Role",
+      "Delete an Employee",
+      "Delete a Role",
+      "Delete a Department",
+      "Exit",
+  ];
+  inquirer
+  // prompting the user with inquirer to select from the options above
+      .prompt([
+          {
+              type: "list",
+              name: "choice",
+              message: "Access your Employee tracker!",
+              choices: options,
+          },
+      ])
+      .then(({ choice }) => {
+          // switch for all the choices that the user may select with applicable functions to run as they should 
+          switch (choice) {
+              case "View All Employees":
+                  break;
+              case "View All Roles":
+                  break;
+              case "View All Departments":
+                  break;
+              case "View Employees by Manager":
+              case "Add an Employee":
+                  break;
+              case "Add a Role":
+                  break;
+              case "Add a Department":
+                  break;
+              case "Update an Employee's Role":
+                  break;
+              case "Delete an Employee":
+                  break;
+              case "Delete a Role":
+                  break;
+              case "Delete a Department":
+                  break;
+              case "Exit":
+                  process.exit();
+          }
+      });
+};
 
 
-
+module.exports = initalQuestions
 /*
 inital choices
 
