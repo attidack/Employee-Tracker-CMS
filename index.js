@@ -14,19 +14,13 @@ const initalQuestions = () => {
       "View All Employees",
       "View All Roles",
       "View All Departments",
-      "View Employees by Manager",
       "Add an Employee",
       "Add a Role",
       "Add a Department",
       "Update an Employee's Role",
-      "Delete an Employee",
-      "Delete a Role",
-      "Delete a Department",
       "Exit",
   ];
-  inquirer
-  // prompting the user with inquirer to select from the options above
-      .prompt([
+  inquirer.prompt([
           {
               type: "list",
               name: "choice",
@@ -35,19 +29,18 @@ const initalQuestions = () => {
           },
       ])
       .then(({ choice }) => {
-          // switch for all the choices that the user may select with applicable functions to run as they should 
           switch (choice) {
               case "View All Employees":
-                viewallemployees()
+                viewAllEmployees()
                   break;
               case "View All Roles":
-                viewallroles()
+                viewAllRoles()
                   break;
               case "View All Departments":
-                viewalldpts()
+                viewAllDpts()
                   break;
-              case "View Employees by Manager":
               case "Add an Employee":
+                addEmployee()
                   break;
               case "Add a Role":
                   break;
@@ -56,12 +49,6 @@ const initalQuestions = () => {
                   break;
               case "Update an Employee's Role":
                   break;
-              case "Delete an Employee":
-                  break;
-              case "Delete a Role":
-                  break;
-              case "Delete a Department":
-                  break;
               case "Exit":
                   process.exit();
           }
@@ -69,7 +56,7 @@ const initalQuestions = () => {
 };
 
 
-const viewalldpts = () => {
+const viewAllDpts = () => {
     const sql = `SELECT * FROM department`;
     db.query(sql, (err, rows) => {
       if (err) {
@@ -80,7 +67,7 @@ const viewalldpts = () => {
     });
 }
 
-const viewallroles = () => {
+const viewAllRoles = () => {
     const sql = `SELECT roles.id, roles.title, roles.salary, department.name 
                 AS department_name 
                 FROM roles 
@@ -96,7 +83,7 @@ const viewallroles = () => {
     });
 }
 
-const viewallemployees = () => {
+const viewAllEmployees = () => {
     const sql = `SELECT employee.id, employee.first_name, employee.last_name, employee.created_at, roles.title 
                 AS title,
                 manager.first_name as manager 
@@ -112,6 +99,26 @@ const viewallemployees = () => {
       initalQuestions()
     });
 }
+const addEmployee = () => {
+  const sql = `INSERT INTO candidates (first_name, last_name, roles_id, manager_id) VALUES (?,?,?,?)`;
+  const params = [
+    body.first_name,
+    body.last_name,
+    body.roles_id,
+    body.manager_id
+  ];
+
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      throw err
+    }
+    res.json({
+      message: 'success',
+      data: body
+    });
+  });
+}
+
 
 const addDepartment = () => {
     inquirer
