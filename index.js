@@ -43,6 +43,7 @@ const initalQuestions = () => {
                 addEmployee()
                   break;
               case "Add a Role":
+                addRole()
                   break;
               case "Add a Department":
                 addDepartment()
@@ -172,6 +173,62 @@ const addEmployee = () => {
 })
 }
 
+const addRole = () => {
+  return inquirer.prompt ([
+    {
+      type: 'input',
+      name: 'title',
+      message: 'Whats the title of this role?', 
+      validate: titleInput => {
+          if (titleInput) {
+              return true;
+          } else {
+              console.log ("Please enter the title for this role!");
+              return false; 
+          }
+      }
+  },
+  {
+      type: 'input',
+      name: 'salary',
+      message: "Whats the Salary for this role?",
+      validate: salaryInput => {
+          if  (!salaryInput) {
+              console.log ("Please enter this roles salary!");
+              return false; 
+          } else {
+              return true;
+          }
+      }
+  },
+  {
+      type: 'input',
+      name: 'department_id',
+      message: "Please enter the department ID for this role",
+      validate: department_idInput => {
+          if  (!department_idInput) {
+              console.log ("Please enter the employees role ID!")
+              return false; 
+          } else {
+              return true;
+          }
+      }
+  },
+  {
+      type: 'input',
+      name: 'manager_id',
+      message: "Please enter the id of the employees manager",
+      validate: manager_idInput => {
+          if  (!manager_idInput) {
+              console.log ("Please enter the employees manager ID!")
+              return false; 
+          } else {
+              return true;
+          }
+      }
+  }
+])
+}
 
 const addDepartment = () => {
     inquirer
