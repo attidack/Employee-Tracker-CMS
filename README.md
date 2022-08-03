@@ -8,7 +8,7 @@
   Employee Tracking app, tracks employees roles, departments and salaries
 
   ## Viedo Walkthrough
-  link
+  https://drive.google.com/file/d/1YqIJ9KzUVxmGN102JU0PpcALp_9a82Zt/view
 
   ## Screenshot
   ![Screenshot](/assets/imgs/screenshot.png)

@@ -169,7 +169,6 @@ const addEmployee = () => {
       throw err
     }
     console.log('Your new employee as been added')
-    viewAllEmployees()
     initalQuestions()
   });
 })
@@ -240,21 +239,21 @@ const addDepartment = () => {
     type: 'input',
     name: 'newDepartment',
     message: 'what would you like to name the new department?'
-})
-  .then(answers => {
-    const sql = `INSERT INTO department (name) VALUES (?)`;
-  const params = [
-    answers.newDepartment,
-  ];
+  })
+    .then(answers => {
+      const sql = `INSERT INTO department (name) VALUES (?)`;
+    const params = [
+      answers.newDepartment,
+    ];
 
-  db.query(sql, params, (err, result) => {
-    if (err) {
-      throw err
-    }
-    console.log('Your new department as been added')
-    initalQuestions()
+    db.query(sql, params, (err, result) => {
+      if (err) {
+        throw err
+      }
+      console.log('Your new department as been added')
+      initalQuestions()
 
-  });
+    });
   })
 }
 
