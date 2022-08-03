@@ -169,6 +169,7 @@ const addEmployee = () => {
       throw err
     }
     console.log('Your new employee as been added')
+    viewAllEmployees()
     initalQuestions()
   });
 })
