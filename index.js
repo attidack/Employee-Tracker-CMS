@@ -49,6 +49,7 @@ const initalQuestions = () => {
                 addDepartment()
                   break;
               case "Update an Employee's Role":
+                updateEmployeeRole()
                   break;
               case "Exit":
                   process.exit();
@@ -207,27 +208,29 @@ const addRole = () => {
       message: "Please enter the department ID for this role",
       validate: department_idInput => {
           if  (!department_idInput) {
-              console.log ("Please enter the employees role ID!")
+              console.log ("Please enter the department ID!")
               return false; 
           } else {
               return true;
           }
       }
   },
-  {
-      type: 'input',
-      name: 'manager_id',
-      message: "Please enter the id of the employees manager",
-      validate: manager_idInput => {
-          if  (!manager_idInput) {
-              console.log ("Please enter the employees manager ID!")
-              return false; 
-          } else {
-              return true;
-          }
-      }
-  }
-])
+])  
+  .then(answers => {
+  const sql = `INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)`;
+  const params = [
+    answers.title,
+    answers.salary,
+    answers.department_id
+  ];
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      throw err
+    }
+    console.log('Your new role has been added')
+    initalQuestions()
+  });
+})
 }
 
 const addDepartment = () => {
@@ -252,6 +255,52 @@ const addDepartment = () => {
 
   });
   })
+}
+
+const updateEmployeeRole = () => {
+  return inquirer.prompt ([
+    {
+      type: 'input',
+      name: 'id',
+      message: 'please enter the employee id for the updated role', 
+      validate: idInput => {
+          if (idInput) {
+              return true;
+          } else {
+              console.log ("Please enter the employee ID");
+              return false; 
+          }
+      }
+  },
+  {
+      type: 'input',
+      name: 'roles_id',
+      message: "enter the new role ID",
+      validate: roles_idInput => {
+          if  (!roles_idInput) {
+              console.log ("Please enter updated role ID!");
+              return false; 
+          } else {
+              return true;
+          }
+      }
+  }
+]) 
+.then(answers => {
+  const sql = `UPDATE employee SET roles_id= ? WHERE id= ?`;
+  const params = [
+    
+    answers.roles_id,
+    answers.id,
+  ];
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      throw err
+    }
+    console.log('Your new employee has been updated')
+    initalQuestions()
+  });
+})
 }
 /*
 inital choices
